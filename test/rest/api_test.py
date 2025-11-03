@@ -1,23 +1,21 @@
-import http.client
-import os
 import unittest
-from urllib.request import urlopen
+from app import app
 
-import pytest
-
-BASE_URL = os.environ.get("BASE_URL")
-DEFAULT_TIMEOUT = 2  # in secs
-
-
-@pytest.mark.api
-class TestApi(unittest.TestCase):
+class TestAPI(unittest.TestCase):
     def setUp(self):
-        self.assertIsNotNone(BASE_URL, "URL no configurada")
-        self.assertTrue(len(BASE_URL) > 8, "URL no configurada")
+        self.app = app.test_client()
 
-    def test_api_add(self):
-        url = f"{BASE_URL}/calc/add/2/2"
-        response = urlopen(url, timeout=DEFAULT_TIMEOUT)
-        self.assertEqual(
-            response.status, http.client.OK, f"Error en la petición API a {url}"
-        )
+    def test_add(self):
+        response = self.app.get('/calc/add/1/2')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json['result'], 3)
+    
+    def test_add_invalid(self):
+        response = self.app.get('/calc/add/1/a')
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('error', response.json)
+    
+    # Similar tests for other operations...
+
+if __name__ == '__main__':
+    unittest.main()

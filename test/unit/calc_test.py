@@ -1,56 +1,52 @@
 import unittest
-from unittest.mock import patch
-import pytest
+from calc import Calculator
 
-from app.calc import Calculator
+class TestCalculator(unittest.TestCase):
+    def test_add(self):
+        self.assertEqual(Calculator.add(1, 2), 3)
+        self.assertEqual(Calculator.add(-1, -2), -3)
+        with self.assertRaises(TypeError):
+            Calculator.add(1, "a")
+    
+    def test_subtract(self):
+        self.assertEqual(Calculator.subtract(2, 1), 1)
+        self.assertEqual(Calculator.subtract(-1, -1), 0)
+        with self.assertRaises(TypeError):
+            Calculator.subtract(1, "a")
+    
+    def test_multiply(self):
+        self.assertEqual(Calculator.multiply(2, 3), 6)
+        self.assertEqual(Calculator.multiply(-1, 2), -2)
+        with self.assertRaises(TypeError):
+            Calculator.multiply(2, "a")
+    
+    def test_divide(self):
+        self.assertEqual(Calculator.divide(4, 2), 2)
+        with self.assertRaises(ValueError):
+            Calculator.divide(1, 0)
+        with self.assertRaises(TypeError):
+            Calculator.divide(1, "a")
+    
+    def test_power(self):
+        self.assertEqual(Calculator.power(2, 3), 8)
+        with self.assertRaises(TypeError):
+            Calculator.power(2, "a")
+    
+    def test_sqrt(self):
+        self.assertEqual(Calculator.sqrt(4), 2)
+        with self.assertRaises(ValueError):
+            Calculator.sqrt(-1)
+        with self.assertRaises(TypeError):
+            Calculator.sqrt("a")
+    
+    def test_log10(self):
+        self.assertEqual(Calculator.log10(100), 2)
+        with self.assertRaises(ValueError):
+            Calculator.log10(0)
+        with self.assertRaises(ValueError):
+            Calculator.log10(-1)
+        with self.assertRaises(TypeError):
+            Calculator.log10("a")
 
-
-def mocked_validation(*args, **kwargs):
-    return True
-
-
-@pytest.mark.unit
-class TestCalculate(unittest.TestCase):
-    def setUp(self):
-        self.calc = Calculator()
-
-    def test_add_method_returns_correct_result(self):
-        self.assertEqual(4, self.calc.add(2, 2))
-        self.assertEqual(0, self.calc.add(2, -2))
-        self.assertEqual(0, self.calc.add(-2, 2))
-        self.assertEqual(1, self.calc.add(1, 0))
-
-    def test_divide_method_returns_correct_result(self):
-        self.assertEqual(1, self.calc.divide(2, 2))
-        self.assertEqual(1.5, self.calc.divide(3, 2))
-
-    def test_add_method_fails_with_nan_parameter(self):
-        self.assertRaises(TypeError, self.calc.add, "2", 2)
-        self.assertRaises(TypeError, self.calc.add, 2, "2")
-        self.assertRaises(TypeError, self.calc.add, "2", "2")
-        self.assertRaises(TypeError, self.calc.add, None, 2)
-        self.assertRaises(TypeError, self.calc.add, 2, None)
-        self.assertRaises(TypeError, self.calc.add, object(), 2)
-        self.assertRaises(TypeError, self.calc.add, 2, object())
-
-    def test_divide_method_fails_with_nan_parameter(self):
-        self.assertRaises(TypeError, self.calc.divide, "2", 2)
-        self.assertRaises(TypeError, self.calc.divide, 2, "2")
-        self.assertRaises(TypeError, self.calc.divide, "2", "2")
-
-    def test_divide_method_fails_with_division_by_zero(self):
-        self.assertRaises(TypeError, self.calc.divide, 2, 0)
-        self.assertRaises(TypeError, self.calc.divide, 2, -0)
-        self.assertRaises(TypeError, self.calc.divide, 0, 0)
-        self.assertRaises(TypeError, self.calc.divide, "0", 0)
-
-    @patch('app.util.validate_permissions', side_effect=mocked_validation, create=True)
-    def test_multiply_method_returns_correct_result(self, _validate_permissions):
-        self.assertEqual(4, self.calc.multiply(2, 2))
-        self.assertEqual(0, self.calc.multiply(1, 0))
-        self.assertEqual(0, self.calc.multiply(-1, 0))
-        self.assertEqual(-2, self.calc.multiply(-1, 2))
-
-
-if __name__ == "__main__":  # pragma: no cover
+if __name__ == '__main__':
     unittest.main()
