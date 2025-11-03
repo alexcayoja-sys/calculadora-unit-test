@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuite name="unit-tests" errors="0" failures="1" skipped="0" tests="4" time="0.042">
+    <testcase classname="test.unit.test_suma" name="test_suma_positivos" time="0.002"/>
+    <testcase classname="test.unit.test_suma" name="test_suma_negativos" time="0.003"/>
+    <testcase classname="test.unit.test_resta" name="test_resta_basica" time="0.002"/>
+    <testcase classname="test.unit.test_division" name="test_division_por_cero" time="0.004">
+        <failure message="ZeroDivisionError: division by zero" type="ZeroDivisionError">
+        Traceback (most recent call last):
+          File "test/unit/test_division.py", line 15, in test_division_por_cero
+            calculadora.dividir(10, 0)
+        ZeroDivisionError: division by zero
+        </failure>
+    </testcase>
+</testsuite>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuite name="rest-tests" errors="0" failures="0" skipped="1" tests="3" time="0.058">
+    <testcase classname="test.rest.test_get_operacion" name="test_get_suma" time="0.010"/>
+    <testcase classname="test.rest.test_post_operacion" name="test_post_resta" time="0.008"/>
+    <testcase classname="test.rest.test_post_operacion" name="test_post_division" time="0.007">
+        <skipped message="API no disponible en entorno local"/>
+    </testcase>
+</testsuite>
